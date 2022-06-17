@@ -23,12 +23,12 @@ def CC(Dim, NIND, MAX_iteration, func, scale_range, groups):
 
     obj_traces = []
     for var in var_traces:
-        obj_traces.append(func(var))
+        obj_traces.append(func(var[0:1000]) + func(var[1000:2000]))
     return var_traces, obj_traces
 
 
-def CC_Opt(benchmark, scale_range, group, based_population, population):
-    problem = MyProblem.CC_Problem(group, benchmark, scale_range, based_population)  # 实例化问题对象
+def CC_Opt(func, scale_range, group, based_population, population):
+    problem = MyProblem.CC_Problem(group, func, scale_range, based_population)  # 实例化问题对象
 
     """===========================算法参数设置=========================="""
     myAlgorithm = templet.soea_DE_currentToBest_1_L_templet(problem, population)

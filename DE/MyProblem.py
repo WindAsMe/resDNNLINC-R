@@ -4,7 +4,7 @@ import numpy as np
 
 class CC_Problem(ea.Problem):
 
-    def __init__(self, group, benchmark, scale_range, based_population):
+    def __init__(self, group, func, scale_range, based_population):
         name = 'MyProblem'
         M = 1
         maxormins = [1]
@@ -14,7 +14,7 @@ class CC_Problem(ea.Problem):
         ub = [scale_range[1]] * self.Dim
         lbin = [1] * self.Dim
         ubin = [1] * self.Dim
-        self.benchmark = benchmark
+        self.func = func
         self.group = group
         self.based_population = based_population
         ea.Problem.__init__(self, name, M, maxormins, self.Dim, varTypes, lb, ub, lbin, ubin)
@@ -29,5 +29,5 @@ class CC_Problem(ea.Problem):
             temp_Phen[:, element] = pop.Phen[:, self.group.index(element)]
         result = []
         for p in temp_Phen:
-            result.append([self.benchmark(p)])
+            result.append([self.func(p[0:1000]) + self.func(p[1000:2000])])
         pop.ObjV = np.array(result)

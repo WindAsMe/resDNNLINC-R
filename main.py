@@ -3,7 +3,7 @@ from util import helps
 from resModel import train
 import numpy as np
 import joblib
-from bench import benchmark
+from cec2013lsgo.cec2013 import Benchmark
 from os import path
 from Grouping import Proposal, Comparison
 from DE import DE
@@ -25,13 +25,14 @@ if __name__ == '__main__':
     dense_size = 200000
     this_path = path.dirname(path.realpath(__file__))
 
+    bench = Benchmark()
     trial_run = 25
     FEs = 6000000
     NIND = 30
     for func_num in range(1, 12):
-        F = benchmark.Function(func_num)
-        func = F.get_func()
-        scale_range = F.get_info()
+        func = bench.get_function(func_num)
+        info = bench.get_info(func_num)
+        scale_range = [info["lower"], info["upper"]]
         """Training model"""
         # for i in range(sample_size):
         #     train.Model_Build(Dim, func_num, bias, dense_size, this_path, sample_size)
